@@ -12,12 +12,12 @@ export default defineConfig({
     target: 'es2017',
     rollupOptions: {
       input: {
-        'x-demo-button': resolve(__dirname, 'src/widgets/demo-button/ce.js')
+        'x-demo-button': resolve(__dirname, 'src/widgets/demo-button/ce.js'),
+        'x-callout':     resolve(__dirname, 'src/widgets/callout/App.svelte')
       },
       output: {
         format: 'es',
         entryFileNames: '[name].v1.0.0.js',
-        inlineDynamicImports: true
       }
     }
   }

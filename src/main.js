@@ -1,7 +1,7 @@
-import DemoButton from './widgets/demo-button/App.svelte';
+import Callout from './widgets/callout/App.svelte';
 import { mount } from 'svelte';
 
-mount(DemoButton, {
+mount(Callout, {
   target: document.getElementById('demo'),
-  props: { label: 'Local dev button', variant: 'primary' }
+  props: { /* use defaults or override here */ }
 });
