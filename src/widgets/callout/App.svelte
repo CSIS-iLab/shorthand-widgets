@@ -5,8 +5,8 @@
     "https://res.cloudinary.com/csisideaslab/image/upload/v1704306843/hidden-reach/HR5-Snapshot-Header.jpg";
   export let link_to =
     "https://features.csis.org/snapshots/china-submarine-diplomacy/";
-  export let backgroundColor = "#22484e";
-  export let maxWidth = 800;
+  export let background_color = "#22484e";
+  export let max_width = 800;
 
   // Allow rich text with a link; you control the content (trusted)
   export let html = `
@@ -17,7 +17,7 @@
 </script>
 
 <!-- Structure -->
-<div id="callout-container" style={`--backgroundColor:${backgroundColor}; --maxw:${maxWidth}px`}>
+<div id="callout-container" style={`--background_color:${background_color}; --maxw:${max_width}px`}>
   <div id="callout-image">
     <a href={link_to}>
       <img src={imageSrc} alt="Callout" />
@@ -33,8 +33,8 @@
   #callout-container {
     display: flex;
     align-items: center;
-    background-color: var(--backgroundColor);
-    max-width: var(--maxw);
+    background-color: var(--background_color);
+    max-width: var(--max_width);
     margin: auto;
     font-family: "IBM Plex Sans", sans-serif;
   }

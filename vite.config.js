@@ -13,7 +13,8 @@ export default defineConfig({
     rollupOptions: {
       input: {
         'x-demo-button': resolve(__dirname, 'src/widgets/demo-button/ce.js'),
-        'x-callout':     resolve(__dirname, 'src/widgets/callout/App.svelte')
+        'x-callout':     resolve(__dirname, 'src/widgets/callout/App.svelte'),
+        'x-credits-accordion': resolve(__dirname, 'src/widgets/credits-accordion/CreditsAccordion.svelte')
       },
       output: {
         format: 'es',
