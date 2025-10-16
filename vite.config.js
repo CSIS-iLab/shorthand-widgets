@@ -18,7 +18,7 @@ export default defineConfig({
       },
       output: {
         format: 'es',
-        entryFileNames: '[name].v1.0.0.js',
+        entryFileNames: '[name].v1.0.1.js',
       }
     }
   }
