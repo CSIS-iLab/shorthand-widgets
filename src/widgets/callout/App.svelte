@@ -17,7 +17,7 @@
 </script>
 
 <!-- Structure -->
-<div id="callout-container" style={`--backgroundColor:${backgroundColor}; --maxw:${maxWidth}px`}>
+<div id="callout-container" style={`--backgroundColor:${backgroundColor}; --maxWidth:${maxWidth}px`}>
   <div id="callout-image">
     <a href={linkTo}>
       <img src={imageSrc} alt="Callout" />
