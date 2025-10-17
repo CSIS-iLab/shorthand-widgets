@@ -1,1 +1,0 @@
-import{j as a,ae as c}from"./custom-element-BjAmjQpt.js";function _(s,f,e,i,p,l){var t=s.__className;if(a||t!==e||t===void 0){var r=c(e,i);(!a||r!==s.getAttribute("class"))&&(r==null?s.removeAttribute("class"):s.className=r),s.__className=e}return l}export{_ as s};

@@ -1,4 +1,5 @@
 <svelte:options customElement="x-callout" />
+
 <script>
   // Public props (everything has sensible defaults)
   export let imageSrc =
@@ -17,7 +18,8 @@
 </script>
 
 <!-- Structure -->
-<div id="callout-container" style={`--backgroundColor:${backgroundColor}; --maxWidth:${maxWidth}px`}>
+<div id="callout-container" style={`--backgroundColor:${backgroundColor}; --maxWidth:${maxWidth}px`}
+>
   <div id="callout-image">
     <a href={linkTo}>
       <img src={imageSrc} alt="Callout" />
