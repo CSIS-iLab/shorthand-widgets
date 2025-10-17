@@ -7,13 +7,12 @@ export default defineConfig({
   build: {
     lib: {
       entry: 'src/main.js',
-      name: 'Callout',
-      // produce an immediately-usable script
-      formats: ['iife'],        // also add 'es' if you want a module build
-      fileName: () => `callout.js`
+      name: 'Widgets',
+      formats: ['iife'],
+      fileName: () => `widgets.js`
     },
     rollupOptions: {
-      // no external deps — bundle everything
+      // keep everything bundled
     }
   }
 });

@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <title>x-callout demo</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <script src="./dist/callout.js"></script>
+    <script src="./dist/widgets.js"></script>
     <style>
       body {
         font-family: system-ui, sans-serif;
@@ -15,12 +15,30 @@
   </head>
 
   <body>
-    <x-callout heading="Photo of the day"
-      image-src="https://images.unsplash.com/photo-1446776899648-aa78eefe8ed0?ixlib=rb-4.1.0&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&amp;auto=format&amp;fit=crop&amp;q=80&amp;w=2672"
-      image-alt="Orange kitten looking left" variant="info" compact
-      max-width="640">
-      <p>Producers can edit this text inline.</p>
+        <x-callout
+      heading="Photo of the day"
+      image-src="https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?ixlib=rb-4.1.0&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&amp;auto=format&amp;fit=crop&amp;q=80&amp;w=1200"
+      image-alt="Orange kitten looking left"
+      variant="info"
+      compact
+      max-width="340"
+    >
+      <p>
+        Producers can edit this text inline. This is an example of how content
+        appears inside your callout component.
+      </p>
     </x-callout>
+    <x-cpp-callout
+      href="https://features.csis.org/snapshots/china-submarine-diplomacy/"
+      image-src="https://images.unsplash.com/photo-1446776899648-aa78eefe8ed0?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=2672"
+      image-alt="Submarine diplomacy snapshot" bg="#000000" max-width="800">
+      This Hidden Reach <a
+        href="https://features.csis.org/snapshots/china-submarine-diplomacy/">Snapshot</a>
+      uses satellite imagery to reveal how China is quietly using submarine
+      diplomacy
+      to deepen its influence along the Bay of Bengal.
+    </x-cpp-callout>
+
   </body>
 
 </html>

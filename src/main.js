@@ -1,2 +1,3 @@
-// src/main.js
-import './Callout.svelte'; // side-effect: defines <x-callout>
+// Importing registers <x-cpp-callout>
+import './CppCallout.svelte';
+import './Callout.svelte';
