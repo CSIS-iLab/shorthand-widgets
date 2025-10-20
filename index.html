@@ -5,7 +5,9 @@
     <meta charset="utf-8" />
     <title>x-callout demo</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <script src="./dist/widgets.js"></script>
+    <!-- <script src="./dist/widgets.js"></script> -->
+    <script type="module" src="/src/main.js"></script>
+
     <style>
       body {
         font-family: system-ui, sans-serif;
@@ -15,30 +17,25 @@
   </head>
 
   <body>
-        <x-callout
-      heading="Photo of the day"
-      image-src="https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?ixlib=rb-4.1.0&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&amp;auto=format&amp;fit=crop&amp;q=80&amp;w=1200"
-      image-alt="Orange kitten looking left"
-      variant="info"
-      compact
-      max-width="340"
-    >
-      <p>
-        Producers can edit this text inline. This is an example of how content
-        appears inside your callout component.
-      </p>
-    </x-callout>
-    <x-cpp-callout
-      href="https://features.csis.org/snapshots/china-submarine-diplomacy/"
-      image-src="https://images.unsplash.com/photo-1446776899648-aa78eefe8ed0?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=2672"
-      image-alt="Submarine diplomacy snapshot" bg="#000000" max-width="800">
-      This Hidden Reach <a
-        href="https://features.csis.org/snapshots/china-submarine-diplomacy/">Snapshot</a>
-      uses satellite imagery to reveal how China is quietly using submarine
-      diplomacy
-      to deepen its influence along the Bay of Bengal.
-    </x-cpp-callout>
-
+    <x-audio-brief
+      title="Audio Brief: China’s Engagement in the Global South with Lily McElwee"
+      audio-src="https://res.cloudinary.com/csisideaslab/video/upload/v1707945817/Shorthand/Global%20Forecast/L_McElwee_AB_v3_mixdown.mp3"
+      transcript-src=""
+      bg-image="https://res.cloudinary.com/csisideaslab/image/upload/v1760987949/dev-team/Global-Forecast-AudioBG.jpg"
+      bg-color="#050f27"
+      font-url="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap"
+      font-family="'Open Sans', serif" style="
+    --ab-border-radius: 20px;
+    --ab-text: #fffefa;
+    --ab-surface: #0d1e45;
+    --ab-accent: #5ea0ff;
+    --ab-progress-bg: #ffffff30;
+    --ab-progress-fill: #0066cc;
+    --ab-menu-bg: #f9f9f9;
+    --ab-menu-hover-bg: #0a2458;
+    --ab-menu-hover-fg: #fcfcfc;
+    --ab-icon-filter: invert(100%) sepia(59%) saturate(541%) hue-rotate(298deg) brightness(104%) contrast(105%);
+  "></x-audio-brief>
   </body>
 
 </html>
