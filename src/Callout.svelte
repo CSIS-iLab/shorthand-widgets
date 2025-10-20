@@ -41,7 +41,6 @@
   .variant-danger  { border-left: 6px solid #ef4444 }
   .media img { width:100%; height:auto; display:block; border-radius:8px }
   .heading { font: 600 1.125rem/1.3 system-ui, sans-serif; margin:0 }
-  .body :where(p,ul,ol){ margin:0 }
 </style>
 
 <div class="wrap {compact ? 'compact' : ''} variant-{variant}" style={`max-width:${maxWidth}px`}>
