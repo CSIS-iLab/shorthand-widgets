@@ -2,16 +2,21 @@
   customElement={{
     tag: "x-audio-brief",
     props: {
+      /* content and sources */
       title: { reflect: true, type: "String" },
       audioSrc: { attribute: "audio-src", type: "String" },
       transcriptSrc: { attribute: "transcript-src", type: "String" },
       bgImage: { attribute: "bg-image", type: "String" },
       backgroundImageAlt: { attribute: "background-image-alt", type: "String" },
+
+      /* background fallback color if no background image */
       bgColor: { attribute: "bg-color", type: "String" },
+
+      /* fonts */
       fontUrl: { attribute: "font-url", type: "String" },
       fontFamily: { attribute: "font-family", type: "String" },
 
-      // icons (optional, still overrideable via attributes)
+      /* URLS for icons */
       iconPlay: { attribute: "icon-play", type: "String" },
       iconPause: { attribute: "icon-pause", type: "String" },
       iconSkipBack: { attribute: "icon-skip-back", type: "String" },
@@ -23,6 +28,25 @@
       iconShare: { attribute: "icon-share", type: "String" },
       iconBack: { attribute: "icon-back", type: "String" },
       iconSpeed: { attribute: "icon-speed", type: "String" },
+
+      /* Styles */
+      borderRadius:  { attribute: "border-radius",  type: "String" }, // -> --ab-border-radius
+      textColor:     { attribute: "text",           type: "String" }, // -> --ab-text
+      surface:       { attribute: "surface",        type: "String" }, // -> --ab-surface
+      accent:        { attribute: "accent",         type: "String" }, // -> --ab-accent
+      titleSize:     { attribute: "title-size",     type: "String" }, // -> --ab-title-size
+
+      progressBg:    { attribute: "progress-bg",    type: "String" }, // -> --ab-progress-bg
+      progressFill:  { attribute: "progress-fill",  type: "String" }, // -> --ab-progress-fill
+
+      menuBg:        { attribute: "menu-bg",        type: "String" }, // -> --ab-menu-bg
+      menuFg:        { attribute: "menu-fg",        type: "String" }, // -> --ab-menu-fg
+      menuHoverBg:   { attribute: "menu-hover-bg",  type: "String" }, // -> --ab-menu-hover-bg
+      menuHoverFg:   { attribute: "menu-hover-fg",  type: "String" }, // -> --ab-menu-hover-fg
+
+      iconFilter:         { attribute: "icon-filter",          type: "String" }, // -> --ab-icon-filter
+      menuIconFilter:     { attribute: "menu-icon-filter",     type: "String" }, // -> --ab-menu-icon-filter
+      menuIconHoverFilter:{ attribute: "menu-icon-hover-filter", type: "String" }, // -> --ab-menu-icon-hover-filter
     },
   }}
 />
@@ -30,15 +54,22 @@
 <script>
   // Runes: props + state
   let {
+    /* content and sources */
     title = "Audio Brief",
     audioSrc = "",
     transcriptSrc = "",
     bgImage = "",
-    bgColor = "#050f27",
     backgroundImageAlt = "",
-    // 👇 add these two with sensible defaults
+ 
+    /* theme fallback color when image absent (also sits under the image) */
+    bgColor = "#050f27",
+
+
+    /* fonts */
     fontUrl = "",
     fontFamily = "'IBM Plex Sans', system-ui, sans-serif",
+
+    /* icons */
     iconPlay = "https://res.cloudinary.com/csisideaslab/image/upload/v1706117784/Shorthand/Global%20Forecast/play-svgrepo-com.svg",
     iconPause = "https://res.cloudinary.com/csisideaslab/image/upload/v1706119327/Shorthand/Global%20Forecast/pause-svgrepo-com.svg",
     iconSkipBack = "https://res.cloudinary.com/csisideaslab/image/upload/v1706201954/Shorthand/Global%20Forecast/backward.svg",
@@ -50,6 +81,25 @@
     iconShare = "https://res.cloudinary.com/csisideaslab/image/upload/v1706148595/Shorthand/Global%20Forecast/share-alt-svgrepo-com.svg",
     iconBack = "https://res.cloudinary.com/csisideaslab/image/upload/v1706148618/Shorthand/Global%20Forecast/left-arrow-svgrepo-com.svg",
     iconSpeed = "https://res.cloudinary.com/csisideaslab/image/upload/v1706148589/Shorthand/Global%20Forecast/playback-speed-svgrepo-com.svg",
+
+    /* --- Style props that map to CSS variables --- */
+    borderRadius = "20px",
+    textColor = "#fffefa",
+    surface = "#0d1e45",
+    accent = "#5ea0ff",
+    titleSize = "1.6em",
+
+    progressBg = "#ffffff30",
+    progressFill = "#0066cc",
+
+    menuBg = "#f9f9f9",
+    menuFg = "#111",
+    menuHoverBg = "#0a2458",
+    menuHoverFg = "#fcfcfc",
+
+    iconFilter = "invert(100%) sepia(59%) saturate(541%) hue-rotate(298deg) brightness(104%) contrast(105%)",
+    menuIconFilter = "invert(0%)",
+    menuIconHoverFilter = "invert(100%)",
   } = $props();
 
   // Load Google Font dynamically inside the shadow root
@@ -59,6 +109,8 @@
     if (host) host.style.setProperty("--ab-font", fontFamily);
   });
 
+  // Load Google Font once (shared across components and web page)
+  /* URL is appended to the document head so it becomes global */
   $effect(() => {
     if (!fontUrl) return;
 
@@ -137,6 +189,7 @@
   function toStart() {
     if (audioEl) audioEl.currentTime = 0;
   }
+
   function toEnd() {
     if (audioEl && Number.isFinite(audioEl.duration))
       audioEl.currentTime = audioEl.duration;
