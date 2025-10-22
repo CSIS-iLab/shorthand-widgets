@@ -552,6 +552,16 @@
     width: 1em;
     height: 1em;
     filter: var(--ab-menu-icon-filter, invert(0%));
+    transition: filter 0.15s ease; /* optional: smoother hover */
+  }
+
+  /* NEW: match icon to hovered item’s “light on dark” colors */
+  .menu button.item:hover .mini-icon,
+  .menu button.item:focus-visible .mini-icon {
+    filter: var(
+      --ab-menu-icon-hover-filter,
+      invert(100%)
+    ); /* default: light icon */
   }
 
   .submenu {
