@@ -1,13 +1,19 @@
 // vite.config.js
-import { defineConfig } from "vite";
-import { svelte } from "@sveltejs/vite-plugin-svelte";
+import { defineConfig } from "vite"
+import { svelte } from "@sveltejs/vite-plugin-svelte"
+import path from "path"
 
 export default defineConfig(({ mode }) => {
   // When we run: vite build --mode dev-bundle
-  const isDevBundle = mode === "dev-bundle";
+  const isDevBundle = mode === "dev-bundle"
 
   return {
     plugins: [svelte()],
+    resolve: {
+      alias: {
+        $lib: path.resolve("./src/lib/3D"),
+      },
+    },
     build: {
       lib: {
         // normal build uses src/main.js; dev bundle uses src/dev-main.js
@@ -27,5 +33,5 @@ export default defineConfig(({ mode }) => {
         // keep everything bundled
       },
     },
-  };
-});
+  }
+})
