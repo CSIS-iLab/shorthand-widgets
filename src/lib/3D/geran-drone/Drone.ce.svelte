@@ -33,7 +33,6 @@
     const shadowRoot = containerEl.getRootNode()
 
     const data = await getData(dataURL)
-    console.log(data)
     wrapImagesWithAnchors(shadowRoot, data)
 
     lightbox = initFilters(shadowRoot, materials)

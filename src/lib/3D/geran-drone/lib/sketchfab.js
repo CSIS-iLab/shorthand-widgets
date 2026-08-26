@@ -24,15 +24,6 @@ export function initSketchfab(iframeEl, { onReady, onError }) {
         onReady(api);
 
         // Dev camera logger
-        api.addEventListener('camerastop', () => {
-          api.getCameraLookAt((err, camera) => {
-            if (err || !camera) return;
-            const pos    = camera.position.map((n) => Number(n.toFixed(2)));
-            const target = camera.target.map((n) => Number(n.toFixed(2)));
-            console.log(`📸 Position: [${pos.join(', ')}]`);
-            console.log(`📸 Target:   [${target.join(', ')}]`);
-          });
-        });
 
         // Hide Missile & Munitions on load
         api.getMaterialList((err, materials) => {
