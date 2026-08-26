@@ -25,7 +25,7 @@
   let containerEl
   let apiRef = null
   let lightbox = null
-  let { dataURL = "", assetsURL = "./src/lib/3D/geran-drone/assets" } = $props()
+  let { dataURL = "", assetsURL = "" } = $props()
 
   const materials = createMaterialController(() => apiRef)
 
