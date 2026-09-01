@@ -2,18 +2,18 @@
   customElement={{
     tag: "csis-geran-drone",
     props: {
-      dataURL: { attribute: "data-url", type: "String" },
+      timelineURL: { attribute: "timeline-url", type: "String" },
+      sourcesURL: { attribute: "sources-url", type: "String" },
       assetsURL: { attribute: "assets-url", type: "String" },
     },
   }}
 />
 
 <script>
-  import { onMount, onDestroy } from "svelte"
+  import { onMount, onDestroy, tick } from "svelte"
   import { initSketchfab } from "$lib/geran-drone/lib/sketchfab"
   import { initFilters } from "$lib/geran-drone/lib/filters"
   import { createMaterialController } from "$lib/geran-drone/lib/materials"
-  import "glightbox/dist/css/glightbox.min.css"
   import { getData } from "$lib/geran-drone/api/data"
   import Airframe from "./Airframe.svelte"
   import Propulsion from "./Propulsion.svelte"
@@ -21,19 +21,35 @@
   import Communications from "./Communications.svelte"
   import Munitions from "./Munitions.svelte"
 
+  let { timelineURL = "", sourcesURL = "", assetsURL = "" } = $props()
+
   let iframeEl
   let containerEl
   let apiRef = null
   let lightbox = null
-  let { dataURL = "", assetsURL = "" } = $props()
+  let data = $state([])
 
   const materials = createMaterialController(() => apiRef)
+
+  let airframeItems = $derived(data.filter((d) => d.category === "airframe"))
+  let propulsionItems = $derived(
+    data.filter((d) => d.category === "propulsion"),
+  )
+  let navigationItems = $derived(
+    data.filter((d) => d.category === "navigation"),
+  )
+  let communicationItems = $derived(
+    data.filter((d) => d.category === "communication"),
+  )
+  let munitionsItems = $derived(data.filter((d) => d.category === "munitions"))
 
   onMount(async () => {
     const shadowRoot = containerEl.getRootNode()
 
-    const data = await getData(dataURL)
-    wrapImagesWithAnchors(shadowRoot, data)
+    data = await getData(timelineURL, sourcesURL)
+
+    // wait for Svelte to finish rendering the rows
+    await tick()
 
     lightbox = initFilters(shadowRoot, materials)
     initSketchfab(iframeEl, {
@@ -46,35 +62,6 @@
   onDestroy(() => {
     lightbox?.destroy()
   })
-
-  function wrapImagesWithAnchors(shadowRoot, data) {
-    const sourcesMap = Object.fromEntries(data.map((d) => [d.image, d]))
-
-    shadowRoot.querySelectorAll(".gallery-row img").forEach((img) => {
-      const src = img.getAttribute("src")
-      const rawKey = "assets/" + src.split("/").pop()
-      const match = sourcesMap[rawKey] // still looks up by original key
-
-      img.setAttribute("src", src) // update the img src
-
-      const anchor = document.createElement("a")
-      anchor.setAttribute("href", src)
-      anchor.classList.add("glightbox")
-
-      img.parentNode.insertBefore(anchor, img)
-      anchor.appendChild(img)
-
-      if (match) {
-        img.setAttribute("alt", match.sourceText)
-        anchor.setAttribute("data-description", match.sourceText)
-
-        const figcaption = anchor.nextElementSibling
-        if (figcaption?.classList.contains("dynamic-caption")) {
-          figcaption.innerHTML = `<a href="${match.link}" target="_blank" rel="noopener noreferrer">${match.sourceText}</a>`
-        }
-      }
-    })
-  }
 </script>
 
 <div class="master-container" bind:this={containerEl}>
@@ -89,7 +76,6 @@
 
   <div class="panel-container">
     <div class="drone-container">
-      <!-- No src here — Sketchfab API sets it on init -->
       <iframe
         bind:this={iframeEl}
         title="Shahed drone"
@@ -116,18 +102,40 @@
             alt="arrow up"
             style="opacity: 40%; max-width: 22px; margin-top: 0px; margin-bottom: 20px;"
           />
-          <p>Select a component from the menu to explore a timeline of its evolution</p>
+          <p>
+            Select a component from the menu to explore a timeline of its
+            evolution
+          </p>
         </div>
 
-        <Airframe {assetsURL} />
+        <div class="navigation-filter">
+          <button class="navigation-btn active" data-subfilter="nav-1"
+            >Flight Control</button
+          >
+          <button class="navigation-btn" data-subfilter="nav-2"
+            >Satellite Navigation</button
+          >
+        </div>
 
-        <Propulsion {assetsURL} />
+        <div class="munitions-filter">
+          <button class="munitions-btn active" data-subfilter="mun-1"
+            >Warhead</button
+          >
+          <button class="munitions-btn" data-subfilter="mun-2"
+            >Anti-Air Armament</button
+          >
+          <button class="munitions-btn" data-subfilter="mun-3"
+            >Auxiliary Munitions</button
+          >
+        </div>
 
-        <Navigation {assetsURL} />
-
-        <Communications {assetsURL} />
-
-        <Munitions {assetsURL} />
+        <div id="dynamic-gallery-rows">
+          <Airframe items={airframeItems} {assetsURL} />
+          <Propulsion items={propulsionItems} {assetsURL} />
+          <Navigation items={navigationItems} {assetsURL} />
+          <Communications items={communicationItems} {assetsURL} />
+          <Munitions items={munitionsItems} {assetsURL} />
+        </div>
       </div>
     </div>
   </div>
