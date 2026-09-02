@@ -28,9 +28,11 @@ export function initFilters(shadowRoot, materials) {
 
   function refreshLightbox() {
     if (lightbox) lightbox.destroy()
+
     const activeElements = Array.from(
       shadowRoot.querySelectorAll(".glightbox-active"),
     )
+    console.log("active elements:", activeElements.length)
 
     lightbox = GLightbox({
       elements: activeElements,
@@ -38,16 +40,8 @@ export function initFilters(shadowRoot, materials) {
       openEffect: "zoom",
       closeEffect: "zoom",
       draggable: true,
-      // appendTo: shadowRoot.host,
     })
 
-    // move the glightbox container into the shadow root
-    const glightboxContainer = document.querySelector(".glightbox-container")
-    if (glightboxContainer) {
-      shadowRoot.appendChild(glightboxContainer)
-    }
-
-    // Manually attach click listeners since shadow DOM blocks document-level events
     activeElements.forEach((el, index) => {
       el.addEventListener("click", (e) => {
         e.preventDefault()
