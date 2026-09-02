@@ -33,6 +33,7 @@ export function initFilters(shadowRoot, materials) {
       shadowRoot.querySelectorAll(".glightbox-active"),
     )
     const article = document.querySelector('article[aria-hidden="true"]')
+    console.log("article found:", article)
 
     lightbox = GLightbox({
       elements: activeElements,
@@ -55,6 +56,8 @@ export function initFilters(shadowRoot, materials) {
     activeElements.forEach((el, index) => {
       el.addEventListener("click", (e) => {
         e.preventDefault()
+        // remove aria-hidden immediately on click, before lightbox opens
+        if (article) article.removeAttribute("aria-hidden")
         lightbox.openAt(index)
       })
     })
