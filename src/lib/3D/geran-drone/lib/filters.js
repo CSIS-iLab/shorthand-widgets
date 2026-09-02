@@ -51,7 +51,6 @@ export function initFilters(shadowRoot, materials) {
       shadowRoot.querySelectorAll(".glightbox-active"),
     )
     const article = document.querySelector('article[aria-hidden="true"]')
-    console.log("article found:", article)
 
     lightbox = GLightbox({
       elements: activeElements,
