@@ -26,8 +26,19 @@
   let iframeEl
   let containerEl
   let apiRef = null
-  let lightbox = null
+  let filters = null
   let data = $state([])
+
+  // custom lightbox state
+  let lightboxImage = $state(null)
+
+  function openLightbox(src, alt, caption) {
+    lightboxImage = { src, alt, caption }
+  }
+
+  function closeLightbox() {
+    lightboxImage = null
+  }
 
   const materials = createMaterialController(() => apiRef)
 
@@ -47,11 +58,9 @@
     const shadowRoot = containerEl.getRootNode()
 
     data = await getData(timelineURL, sourcesURL)
-
-    // wait for Svelte to finish rendering the rows
     await tick()
 
-    lightbox = initFilters(shadowRoot, materials)
+    filters = initFilters(shadowRoot, materials)
     initSketchfab(iframeEl, {
       onReady: (api) => {
         apiRef = api
@@ -60,7 +69,7 @@
   })
 
   onDestroy(() => {
-    lightbox?.destroy()
+    filters?.destroy()
   })
 </script>
 
@@ -130,15 +139,47 @@
         </div>
 
         <div id="dynamic-gallery-rows">
-          <Airframe items={airframeItems} {assetsURL} />
-          <Propulsion items={propulsionItems} {assetsURL} />
-          <Navigation items={navigationItems} {assetsURL} />
-          <Communications items={communicationItems} {assetsURL} />
-          <Munitions items={munitionsItems} {assetsURL} />
+          <Airframe
+            items={airframeItems}
+            {assetsURL}
+            onlightbox={(e) => openLightbox(e.src, e.alt, e.caption)}
+          />
+          <Propulsion
+            items={propulsionItems}
+            {assetsURL}
+            onlightbox={(e) => openLightbox(e.src, e.alt, e.caption)}
+          />
+          <Navigation
+            items={navigationItems}
+            {assetsURL}
+            onlightbox={(e) => openLightbox(e.src, e.alt, e.caption)}
+          />
+          <Communications
+            items={communicationItems}
+            {assetsURL}
+            onlightbox={(e) => openLightbox(e.src, e.alt, e.caption)}
+          />
+          <Munitions
+            items={munitionsItems}
+            {assetsURL}
+            onlightbox={(e) => openLightbox(e.src, e.alt, e.caption)}
+          />
         </div>
       </div>
     </div>
   </div>
+
+  {#if lightboxImage}
+    <div class="lightbox-overlay" onclick={closeLightbox}>
+      <div class="lightbox-modal" onclick={(e) => e.stopPropagation()}>
+        <button class="lightbox-close" onclick={closeLightbox}>✕</button>
+        <img src={lightboxImage.src} alt={lightboxImage.alt} />
+        {#if lightboxImage.caption}
+          <p class="lightbox-caption">{lightboxImage.caption}</p>
+        {/if}
+      </div>
+    </div>
+  {/if}
 </div>
 
 <style>
@@ -346,6 +387,52 @@
       .drone-container {
         display: none;
       }
+    }
+
+    .lightbox-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.85);
+      z-index: 999999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .lightbox-modal {
+      position: relative;
+      max-width: 90vw;
+      max-height: 90vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .lightbox-modal img {
+      max-width: 90vw;
+      max-height: 80vh;
+      object-fit: contain;
+      box-shadow: none;
+      cursor: default;
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: -40px;
+      right: 0;
+      background: none;
+      border: none;
+      color: white;
+      font-size: 24px;
+      cursor: pointer;
+    }
+
+    .lightbox-caption {
+      color: white;
+      text-align: center;
+      margin-top: 10px;
+      font-size: 0.9rem;
+      opacity: 0.8;
     }
   }
 </style>

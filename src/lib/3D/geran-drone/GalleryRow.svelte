@@ -1,7 +1,5 @@
 <script>
-  export let item = {}
-  export let assetsURL = ""
-  export let category = ""
+  let { item = {}, assetsURL = "", category = "", onlightbox } = $props()
 </script>
 
 <div
@@ -22,9 +20,17 @@
       {@const filename = image.src.split("/").pop()}
       {@const fullSrc = `${assetsURL}/${filename}`}
       <figure>
-        <a href={fullSrc} class="glightbox" data-description={image.sourceText}>
-          <img src={fullSrc} alt={image.sourceText} />
-        </a>
+        <img
+          src={fullSrc}
+          alt={image.sourceText}
+          onclick={() =>
+            onlightbox?.({
+              src: fullSrc,
+              alt: image.sourceText,
+              caption: image.sourceText,
+            })}
+          style="cursor: pointer"
+        />
         <figcaption class="dynamic-caption">
           {#if image.link}
             <a href={image.link} target="_blank" rel="noopener noreferrer">

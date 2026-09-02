@@ -1,9 +1,8 @@
 <script>
   import GalleryRow from './GalleryRow.svelte'
-  export let items = []
-  export let assetsURL = ''
+  let { items = [], assetsURL = '', onlightbox } = $props()
 </script>
 
 {#each items as item}
-  <GalleryRow {item} {assetsURL} category="communication" />
+  <GalleryRow {item} {assetsURL} category="communication" {onlightbox} />
 {/each}
