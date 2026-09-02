@@ -18,6 +18,24 @@ export function initFilters(shadowRoot, materials) {
 
   let lightbox = null
 
+  // Watch for aria-hidden being added dynamically and remove it
+  const ariaObserver = new MutationObserver((mutations) => {
+    mutations.forEach((mutation) => {
+      if (mutation.attributeName === "aria-hidden") {
+        const el = mutation.target
+        if (el.getAttribute("aria-hidden") === "true") {
+          el.removeAttribute("aria-hidden")
+        }
+      }
+    })
+  })
+
+  ariaObserver.observe(document.body, {
+    attributes: true,
+    subtree: true,
+    attributeFilter: ["aria-hidden"],
+  })
+
   const filterButtons = qsa(".filter-btn")
   const munitionsButtons = qsa(".munitions-btn")
   const navigationButtons = qsa(".navigation-btn")
@@ -221,6 +239,9 @@ export function initFilters(shadowRoot, materials) {
   })
 
   return {
-    destroy: () => lightbox?.destroy(),
+    destroy: () => {
+      lightbox?.destroy()
+      ariaObserver.disconnect()
+    },
   }
 }
