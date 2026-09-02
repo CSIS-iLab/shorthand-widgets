@@ -32,7 +32,7 @@ export function initFilters(shadowRoot, materials) {
     const activeElements = Array.from(
       shadowRoot.querySelectorAll(".glightbox-active"),
     )
-    console.log("active elements:", activeElements.length)
+    const article = document.querySelector('article[aria-hidden="true"]')
 
     lightbox = GLightbox({
       elements: activeElements,
@@ -40,6 +40,16 @@ export function initFilters(shadowRoot, materials) {
       openEffect: "zoom",
       closeEffect: "zoom",
       draggable: true,
+    })
+
+    // Remove aria-hidden when lightbox opens so focus can reach it
+    lightbox.on("open", () => {
+      if (article) article.removeAttribute("aria-hidden")
+    })
+
+    // Restore aria-hidden when lightbox closes
+    lightbox.on("close", () => {
+      if (article) article.setAttribute("aria-hidden", "true")
     })
 
     activeElements.forEach((el, index) => {
