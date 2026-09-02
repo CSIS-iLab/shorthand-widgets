@@ -34,6 +34,15 @@
 
   function openLightbox(src, alt, caption) {
     lightboxImage = { src, alt, caption }
+
+    // close on Esc key
+    function handleKeydown(e) {
+      if (e.key === "Escape") {
+        closeLightbox()
+        window.removeEventListener("keydown", handleKeydown)
+      }
+    }
+    window.addEventListener("keydown", handleKeydown)
   }
 
   function closeLightbox() {
@@ -418,13 +427,21 @@
 
     .lightbox-close {
       position: absolute;
-      top: -40px;
+      top: -44px;
       right: 0;
-      background: none;
+      background: rgba(80, 80, 80, 0.75);
       border: none;
       color: white;
-      font-size: 24px;
+      font-size: 18px;
       cursor: pointer;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(4px);
+      transition: background 0.2s ease;
     }
 
     .lightbox-caption {
