@@ -142,13 +142,6 @@
 </div>
 
 <style>
-  :global(.glightbox-container) {
-    z-index: 999999 !important;
-  }
-
-  :global(.goverlay) {
-    z-index: 999998 !important;
-  }
   :global {
     * {
       margin: 0;

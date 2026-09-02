@@ -2,6 +2,23 @@ import GLightbox from "glightbox"
 import "glightbox/dist/css/glightbox.min.css"
 
 export function initFilters(shadowRoot, materials) {
+  // inject GLightbox z-index fix into document head
+  const style = document.createElement("style")
+  style.textContent = `
+    .glightbox-container {
+      z-index: 999999 !important;
+      position: fixed !important;
+    }
+    .goverlay {
+      z-index: 999998 !important;
+      position: fixed !important;
+    }
+    .gslider {
+      z-index: 999999 !important;
+    }
+  `
+  document.head.appendChild(style)
+
   const {
     resetMaterialOpacities,
     focusComponentXRay,
@@ -241,6 +258,7 @@ export function initFilters(shadowRoot, materials) {
     destroy: () => {
       lightbox?.destroy()
       ariaObserver.disconnect()
+      style.remove()
     },
   }
 }
