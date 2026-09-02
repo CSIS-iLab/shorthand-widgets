@@ -67,7 +67,6 @@ export function initFilters(shadowRoot, materials) {
     const activeElements = Array.from(
       shadowRoot.querySelectorAll(".glightbox-active"),
     )
-    const article = document.querySelector('article[aria-hidden="true"]')
 
     lightbox = GLightbox({
       elements: activeElements,
@@ -77,21 +76,18 @@ export function initFilters(shadowRoot, materials) {
       draggable: true,
     })
 
-    // Remove aria-hidden when lightbox opens so focus can reach it
-    lightbox.on("open", () => {
-      if (article) article.removeAttribute("aria-hidden")
-    })
-
-    // Restore aria-hidden when lightbox closes
-    lightbox.on("close", () => {
-      if (article) article.setAttribute("aria-hidden", "true")
-    })
+    // Move glightbox container to document.body to escape any stacking context
+    const glightboxContainer = document.getElementById("glightbox-body")
+    if (
+      glightboxContainer &&
+      glightboxContainer.parentElement !== document.body
+    ) {
+      document.body.appendChild(glightboxContainer)
+    }
 
     activeElements.forEach((el, index) => {
       el.addEventListener("click", (e) => {
         e.preventDefault()
-        // remove aria-hidden immediately on click, before lightbox opens
-        if (article) article.removeAttribute("aria-hidden")
         lightbox.openAt(index)
       })
     })
