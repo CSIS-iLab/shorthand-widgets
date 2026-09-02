@@ -38,6 +38,7 @@ export function initFilters(shadowRoot, materials) {
       openEffect: "zoom",
       closeEffect: "zoom",
       draggable: true,
+      appendTo: shadowRoot.host,
     })
 
     // Manually attach click listeners since shadow DOM blocks document-level events
