@@ -9,7 +9,7 @@
 >
   <div class="timeline-column">
     {#if item.year}
-      <div class="timeline-year">{item.year}</div>
+      <time class="timeline-year">{item.year}</time>
     {/if}
     <div class="timeline-description">
       <p>{item.description}</p>
@@ -20,17 +20,18 @@
       {@const filename = image.src.split("/").pop()}
       {@const fullSrc = `${assetsURL}/${filename}`}
       <figure>
-        <img
-          src={fullSrc}
-          alt={image.sourceText}
+        <button
+          class="lightbox-trigger"
           onclick={() =>
             onlightbox?.({
               src: fullSrc,
               alt: image.sourceText,
               caption: image.sourceText,
             })}
-          style="cursor: pointer"
-        />
+          aria-label="View larger image of {image.sourceText}"
+        >
+          <img src={fullSrc} alt={image.sourceText} />
+        </button>
         <figcaption class="dynamic-caption">
           {#if image.link}
             <a href={image.link} target="_blank" rel="noopener noreferrer">
@@ -42,3 +43,14 @@
     {/each}
   </div>
 </div>
+
+<style>
+  .lightbox-trigger {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    display: block;
+    width: 100%;
+  }
+</style>
