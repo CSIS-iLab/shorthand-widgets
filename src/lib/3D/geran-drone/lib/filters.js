@@ -38,8 +38,14 @@ export function initFilters(shadowRoot, materials) {
       openEffect: "zoom",
       closeEffect: "zoom",
       draggable: true,
-      appendTo: shadowRoot.host,
+      // appendTo: shadowRoot.host,
     })
+
+    // move the glightbox container into the shadow root
+    const glightboxContainer = document.querySelector(".glightbox-container")
+    if (glightboxContainer) {
+      shadowRoot.appendChild(glightboxContainer)
+    }
 
     // Manually attach click listeners since shadow DOM blocks document-level events
     activeElements.forEach((el, index) => {
