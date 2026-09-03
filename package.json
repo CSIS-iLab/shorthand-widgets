@@ -17,9 +17,10 @@
     "vite": "^7.3.3"
   },
   "dependencies": {
-    "gsap": "^3.13.0",
-    "split-type": "^0.3.4",
     "d3-fetch": "^3.0.1",
-    "dompurify": "^3.4.0"
+    "dompurify": "^3.4.0",
+    "glightbox": "^3.3.1",
+    "gsap": "^3.13.0",
+    "split-type": "^0.3.4"
   }
 }
