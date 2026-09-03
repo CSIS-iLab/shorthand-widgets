@@ -12,16 +12,16 @@
 />
 
 <script>
-  import { onMount, onDestroy, tick } from "svelte"
-  import { initSketchfab } from "$lib/geran-drone/lib/sketchfab"
-  import { initFilters } from "$lib/geran-drone/lib/filters"
-  import { createMaterialController } from "$lib/geran-drone/lib/materials"
-  import { getData } from "$lib/geran-drone/api/data"
-  import Airframe from "./Airframe.svelte"
-  import Propulsion from "./Propulsion.svelte"
-  import Navigation from "./Navigation.svelte"
-  import Communications from "./Communications.svelte"
-  import Munitions from "./Munitions.svelte"
+  import { onMount, onDestroy, tick } from "svelte";
+  import { initSketchfab } from "$lib/geran-drone/lib/sketchfab";
+  import { initFilters } from "$lib/geran-drone/lib/filters";
+  import { createMaterialController } from "$lib/geran-drone/lib/materials";
+  import { getData } from "$lib/geran-drone/api/data";
+  import Airframe from "./Airframe.svelte";
+  import Propulsion from "./Propulsion.svelte";
+  import Navigation from "./Navigation.svelte";
+  import Communications from "./Communications.svelte";
+  import Munitions from "./Munitions.svelte";
 
   let {
     timelineURL = "",
@@ -29,84 +29,84 @@
     assetsURL = "",
     fontUrl = "",
     fontFamily = "'IBM Plex Sans', system-ui, sans-serif",
-  } = $props()
+  } = $props();
 
-  let iframeEl
-  let containerEl
-  let apiRef = null
-  let filters = null
-  let data = $state([])
+  let iframeEl;
+  let containerEl;
+  let apiRef = null;
+  let filters = null;
+  let data = $state([]);
 
   // custom lightbox state
-  let lightboxImage = $state(null)
+  let lightboxImage = $state(null);
 
   function openLightbox(src, alt, caption) {
-    lightboxImage = { src, alt, caption }
+    lightboxImage = { src, alt, caption };
 
     // close on Esc key
     function handleKeydown(e) {
       if (e.key === "Escape") {
-        closeLightbox()
-        window.removeEventListener("keydown", handleKeydown)
+        closeLightbox();
+        window.removeEventListener("keydown", handleKeydown);
       }
     }
-    window.addEventListener("keydown", handleKeydown)
+    window.addEventListener("keydown", handleKeydown);
   }
 
   function closeLightbox() {
-    lightboxImage = null
+    lightboxImage = null;
   }
 
-  const materials = createMaterialController(() => apiRef)
+  const materials = createMaterialController(() => apiRef);
 
-  let airframeItems = $derived(data.filter((d) => d.category === "airframe"))
+  let airframeItems = $derived(data.filter((d) => d.category === "airframe"));
   let propulsionItems = $derived(
-    data.filter((d) => d.category === "propulsion"),
-  )
+    data.filter((d) => d.category === "propulsion")
+  );
   let navigationItems = $derived(
-    data.filter((d) => d.category === "navigation"),
-  )
+    data.filter((d) => d.category === "navigation")
+  );
   let communicationItems = $derived(
-    data.filter((d) => d.category === "communication"),
-  )
-  let munitionsItems = $derived(data.filter((d) => d.category === "munitions"))
+    data.filter((d) => d.category === "communication")
+  );
+  let munitionsItems = $derived(data.filter((d) => d.category === "munitions"));
 
   onMount(async () => {
-    const shadowRoot = containerEl.getRootNode()
+    const shadowRoot = containerEl.getRootNode();
 
     // inject font
     if (fontUrl) {
       const existing = document.querySelector(
-        `link[data-csis-font="${fontUrl}"]`,
-      )
+        `link[data-csis-font="${fontUrl}"]`
+      );
       if (!existing) {
-        const link = document.createElement("link")
-        link.rel = "stylesheet"
-        link.href = fontUrl
-        link.dataset.csisFont = fontUrl
-        document.head.appendChild(link)
+        const link = document.createElement("link");
+        link.rel = "stylesheet";
+        link.href = fontUrl;
+        link.dataset.csisFont = fontUrl;
+        document.head.appendChild(link);
       }
     }
 
     // set font-family on the host element so it cascades into shadow DOM
     if (fontFamily) {
-      shadowRoot.host.style.setProperty("--font-family", fontFamily)
+      shadowRoot.host.style.setProperty("--font-family", fontFamily);
     }
 
-    data = await getData(timelineURL, sourcesURL)
-    await tick()
+    data = await getData(timelineURL, sourcesURL);
+    await tick();
 
-    filters = initFilters(shadowRoot, materials)
+    filters = initFilters(shadowRoot, materials);
     initSketchfab(iframeEl, {
       onReady: (api) => {
-        apiRef = api
+        apiRef = api;
       },
-    })
-  })
+    });
+  });
 
   onDestroy(() => {
-    filters?.destroy()
-  })
+    filters?.destroy();
+  });
 </script>
 
 <div
@@ -336,7 +336,6 @@
     /* Image Column Constraint */
     .gallery-column {
       width: 100%;
-      padding-left: 7%;
     }
 
     .gallery-column img {
@@ -419,6 +418,13 @@
 
       .gallery-row {
         grid-template-columns: 35% 65%;
+      }
+
+      figure {
+        margin-block-start: 0;
+        margin-block-end: 0;
+        margin-inline-start: 0;
+        margin-inline-end: 0;
       }
     }
 
