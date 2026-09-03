@@ -9,9 +9,9 @@ export function createMaterialController(getApi) {
     api.setCameraLookAt(cameraPos, cameraTarget, 2);
     api.setHighlightOptions({
       outlineWidth: 2,
-      outlineColor: [1, 0.1, 0.1],
+      outlineColor: [1.0, 0.522, 0.259],
       outlineDuration: 200,
-      highlightColor: [1, 0.1, 0.1],
+      highlightColor: [1.0, 0.522, 0.259],
       highlightDuration: 200,
     });
 

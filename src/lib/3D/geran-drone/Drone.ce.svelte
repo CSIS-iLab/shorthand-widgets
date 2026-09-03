@@ -10,76 +10,76 @@
 />
 
 <script>
-  import { onMount, onDestroy, tick } from "svelte"
-  import { initSketchfab } from "$lib/geran-drone/lib/sketchfab"
-  import { initFilters } from "$lib/geran-drone/lib/filters"
-  import { createMaterialController } from "$lib/geran-drone/lib/materials"
-  import { getData } from "$lib/geran-drone/api/data"
-  import Airframe from "./Airframe.svelte"
-  import Propulsion from "./Propulsion.svelte"
-  import Navigation from "./Navigation.svelte"
-  import Communications from "./Communications.svelte"
-  import Munitions from "./Munitions.svelte"
+  import { onMount, onDestroy, tick } from "svelte";
+  import { initSketchfab } from "$lib/geran-drone/lib/sketchfab";
+  import { initFilters } from "$lib/geran-drone/lib/filters";
+  import { createMaterialController } from "$lib/geran-drone/lib/materials";
+  import { getData } from "$lib/geran-drone/api/data";
+  import Airframe from "./Airframe.svelte";
+  import Propulsion from "./Propulsion.svelte";
+  import Navigation from "./Navigation.svelte";
+  import Communications from "./Communications.svelte";
+  import Munitions from "./Munitions.svelte";
 
-  let { timelineURL = "", sourcesURL = "", assetsURL = "" } = $props()
+  let { timelineURL = "", sourcesURL = "", assetsURL = "" } = $props();
 
-  let iframeEl
-  let containerEl
-  let apiRef = null
-  let filters = null
-  let data = $state([])
+  let iframeEl;
+  let containerEl;
+  let apiRef = null;
+  let filters = null;
+  let data = $state([]);
 
   // custom lightbox state
-  let lightboxImage = $state(null)
+  let lightboxImage = $state(null);
 
   function openLightbox(src, alt, caption) {
-    lightboxImage = { src, alt, caption }
+    lightboxImage = { src, alt, caption };
 
     // close on Esc key
     function handleKeydown(e) {
       if (e.key === "Escape") {
-        closeLightbox()
-        window.removeEventListener("keydown", handleKeydown)
+        closeLightbox();
+        window.removeEventListener("keydown", handleKeydown);
       }
     }
-    window.addEventListener("keydown", handleKeydown)
+    window.addEventListener("keydown", handleKeydown);
   }
 
   function closeLightbox() {
-    lightboxImage = null
+    lightboxImage = null;
   }
 
-  const materials = createMaterialController(() => apiRef)
+  const materials = createMaterialController(() => apiRef);
 
-  let airframeItems = $derived(data.filter((d) => d.category === "airframe"))
+  let airframeItems = $derived(data.filter((d) => d.category === "airframe"));
   let propulsionItems = $derived(
-    data.filter((d) => d.category === "propulsion"),
-  )
+    data.filter((d) => d.category === "propulsion")
+  );
   let navigationItems = $derived(
-    data.filter((d) => d.category === "navigation"),
-  )
+    data.filter((d) => d.category === "navigation")
+  );
   let communicationItems = $derived(
-    data.filter((d) => d.category === "communication"),
-  )
-  let munitionsItems = $derived(data.filter((d) => d.category === "munitions"))
+    data.filter((d) => d.category === "communication")
+  );
+  let munitionsItems = $derived(data.filter((d) => d.category === "munitions"));
 
   onMount(async () => {
-    const shadowRoot = containerEl.getRootNode()
+    const shadowRoot = containerEl.getRootNode();
 
-    data = await getData(timelineURL, sourcesURL)
-    await tick()
+    data = await getData(timelineURL, sourcesURL);
+    await tick();
 
-    filters = initFilters(shadowRoot, materials)
+    filters = initFilters(shadowRoot, materials);
     initSketchfab(iframeEl, {
       onReady: (api) => {
-        apiRef = api
+        apiRef = api;
       },
-    })
-  })
+    });
+  });
 
   onDestroy(() => {
-    filters?.destroy()
-  })
+    filters?.destroy();
+  });
 </script>
 
 <div class="master-container" bind:this={containerEl}>
@@ -192,12 +192,18 @@
 </div>
 
 <style>
+  @import url("https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap");
+
   :global {
     * {
       margin: 0;
       padding: 0;
       font-family: Inter;
       box-sizing: border-box;
+    }
+
+    p {
+      font-family: Inter;
     }
 
     a {
@@ -255,6 +261,7 @@
       gap: 25px;
       padding-bottom: 30px;
       padding-top: 20px;
+      font-family: Inter;
     }
 
     .filter-btn,
@@ -280,7 +287,7 @@
     .munitions-btn.active,
     .navigation-btn.active {
       color: #070707;
-      background: #bf3636;
+      background: #1E2754;
       color: #f5f5f5;
       opacity: 100;
       pointer-events: none;
